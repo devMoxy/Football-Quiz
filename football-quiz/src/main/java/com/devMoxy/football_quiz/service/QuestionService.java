@@ -1,5 +1,6 @@
 package com.devMoxy.football_quiz.service;
 
+import com.devMoxy.football_quiz.dto.QuestionDTO;
 import com.devMoxy.football_quiz.entity.Difficulty;
 import com.devMoxy.football_quiz.entity.Question;
 import com.devMoxy.football_quiz.repository.QuestionRepository;
@@ -21,5 +22,17 @@ public class QuestionService {
 
     public List<Question> getQuestionsByDifficulty(Difficulty difficulty){
         return questionRepository.findByDifficulty(difficulty);
+    }
+
+    private QuestionDTO convertToDto(Question question){
+        QuestionDTO dto  = new QuestionDTO();
+        dto.setId(question.getId());
+        dto.setText(question.getText());
+        dto.setOptionA(question.getOptionA());
+        dto.setOptionB(question.getOptionB());
+        dto.setOptionC(question.getOptionC());
+        dto.setOptionD(question.getOptionD());
+        dto.setCategoryName(question.getCategory().getName());
+        return dto;
     }
 }
