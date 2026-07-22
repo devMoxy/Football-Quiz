@@ -6,6 +6,7 @@ import com.devMoxy.football_quiz.entity.Question;
 import com.devMoxy.football_quiz.repository.QuestionRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,8 +17,22 @@ public class QuestionService {
         this.questionRepository = questionRepository;
     }
 
-    public List<Question> getAllQuestions(){
-        return questionRepository.findAll();
+    public List<QuestionDTO> getAllQuestions(){
+        List<Question> questions = questionRepository.findAll();
+        List<QuestionDTO> dtoList = new ArrayList<>();
+
+        for (Question q : questions) {
+            QuestionDTO dto = new QuestionDTO();
+
+            dto.setId(q.getId());
+            dto.setText(q.getText());
+            dto.setOptionA(q.getOptionA());
+            dto.setOptionB(q.getOptionB());
+            dto.setOptionC(q.getOptionC());
+            dto.setOptionD(q.getOptionD());
+            dtoList.add(dto);
+        }
+        return dtoList;
     }
 
     public List<Question> getQuestionsByDifficulty(Difficulty difficulty){
