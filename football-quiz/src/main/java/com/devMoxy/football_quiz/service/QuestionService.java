@@ -22,21 +22,21 @@ public class QuestionService {
         List<QuestionDTO> dtoList = new ArrayList<>();
 
         for (Question q : questions) {
-            QuestionDTO dto = new QuestionDTO();
-
-            dto.setId(q.getId());
-            dto.setText(q.getText());
-            dto.setOptionA(q.getOptionA());
-            dto.setOptionB(q.getOptionB());
-            dto.setOptionC(q.getOptionC());
-            dto.setOptionD(q.getOptionD());
+            QuestionDTO dto = convertToDto(q);
             dtoList.add(dto);
         }
         return dtoList;
     }
 
-    public List<Question> getQuestionsByDifficulty(Difficulty difficulty){
-        return questionRepository.findByDifficulty(difficulty);
+    public List<QuestionDTO> getQuestionsByDifficulty(Difficulty difficulty){
+        List<Question> questions = questionRepository.findByDifficulty(difficulty);
+        List<QuestionDTO> dtoList = new ArrayList<>();
+
+        for(Question q: questions){
+            QuestionDTO dto = convertToDto(q);
+            dtoList.add(dto);
+        }
+        return dtoList;
     }
 
     private QuestionDTO convertToDto(Question question){
@@ -48,6 +48,7 @@ public class QuestionService {
         dto.setOptionC(question.getOptionC());
         dto.setOptionD(question.getOptionD());
         dto.setCategoryName(question.getCategory().getName());
+        dto.setDifficulty(question.getDifficulty());
         return dto;
     }
 }

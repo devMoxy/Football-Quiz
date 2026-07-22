@@ -10,5 +10,4 @@ public class FootballQuizApplication {
 
 		SpringApplication.run(FootballQuizApplication.class, args);
 	}
-
 }
