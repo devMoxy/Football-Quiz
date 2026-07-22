@@ -1,8 +1,11 @@
 package com.devMoxy.football_quiz.service;
 
+import com.devMoxy.football_quiz.dto.QuestionCreateDTO;
 import com.devMoxy.football_quiz.dto.QuestionDTO;
+import com.devMoxy.football_quiz.entity.Category;
 import com.devMoxy.football_quiz.entity.Difficulty;
 import com.devMoxy.football_quiz.entity.Question;
+import com.devMoxy.football_quiz.repository.CategoryRepository;
 import com.devMoxy.football_quiz.repository.QuestionRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +15,11 @@ import java.util.List;
 @Service
 public class QuestionService {
     private final QuestionRepository questionRepository;
+    private final CategoryRepository categoryRepository;
 
-    public QuestionService(QuestionRepository questionRepository){
+    public QuestionService(QuestionRepository questionRepository, CategoryRepository categoryRepository){
         this.questionRepository = questionRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     public List<QuestionDTO> getAllQuestions(){
@@ -61,5 +66,20 @@ public class QuestionService {
             dtoList.add(dto);
         }
         return dtoList;
+    }
+
+    public QuestionDTO createQuestion(QuestionCreateDTO dto){
+        Category category = categoryRepository.findById(dto.getCategoryId()).orElseThrow(() -> new RuntimeException("Category not found"));
+        Question questions = new Question();
+        questions.setCategory(category);
+        questions.setText(dto.getText());
+        questions.setOptionA(dto.getOptionA());
+        questions.setOptionB(dto.getOptionB());
+        questions.setOptionC(dto.getOptionC());
+        questions.setOptionD(dto.getOptionD());
+        questions.setDifficulty(dto.getDifficulty());
+        questions.setCorrectAnswerIndex(dto.getCorrectAnswerIndex());
+        Question saved = questionRepository.save(questions);
+        return convertToDto(saved);
     }
 }
