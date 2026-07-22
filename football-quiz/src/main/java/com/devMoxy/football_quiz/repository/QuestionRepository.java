@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface QuestionRepository extends JpaRepository<Question, Long> {
     List<Question> findByDifficulty(Difficulty difficulty);
+
+    List<Question> findByDifficultyAndCategory_Id(Difficulty difficulty, Long categoryId);
 }

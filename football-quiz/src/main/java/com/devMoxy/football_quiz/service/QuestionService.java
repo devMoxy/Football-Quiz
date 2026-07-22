@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 public class QuestionService {
-    private QuestionRepository questionRepository;
+    private final QuestionRepository questionRepository;
 
     public QuestionService(QuestionRepository questionRepository){
         this.questionRepository = questionRepository;
@@ -50,5 +50,16 @@ public class QuestionService {
         dto.setCategoryName(question.getCategory().getName());
         dto.setDifficulty(question.getDifficulty());
         return dto;
+    }
+
+    public List<QuestionDTO> getQuestionsByCategoryAndDifficulty(Long categoryId, Difficulty difficulty){
+        List<Question> questions = questionRepository.findByDifficultyAndCategory_Id(difficulty, categoryId);
+        List<QuestionDTO> dtoList = new ArrayList<>();
+
+        for(Question q: questions){
+            QuestionDTO dto = convertToDto(q);
+            dtoList.add(dto);
+        }
+        return dtoList;
     }
 }
