@@ -10,6 +10,7 @@ import com.devMoxy.football_quiz.repository.QuestionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -81,5 +82,13 @@ public class QuestionService {
         questions.setCorrectAnswerIndex(dto.getCorrectAnswerIndex());
         Question saved = questionRepository.save(questions);
         return convertToDto(saved);
+    }
+
+    public List<QuestionDTO> startQuiz(Long categoryId, Difficulty difficulty, int numberOfQuestion){
+        List<QuestionDTO> dtoList = getQuestionsByCategoryAndDifficulty(categoryId, difficulty);
+        Collections.shuffle(dtoList);
+        int limit = Math.min(numberOfQuestion, dtoList.size());
+        List<QuestionDTO> selectedQuestions = dtoList.subList(0, limit);
+        return selectedQuestions;
     }
 }
