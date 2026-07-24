@@ -1,7 +1,6 @@
 package com.devMoxy.football_quiz.service;
 
-import com.devMoxy.football_quiz.dto.QuestionCreateDTO;
-import com.devMoxy.football_quiz.dto.QuestionDTO;
+import com.devMoxy.football_quiz.dto.*;
 import com.devMoxy.football_quiz.entity.Category;
 import com.devMoxy.football_quiz.entity.Difficulty;
 import com.devMoxy.football_quiz.entity.Question;
@@ -92,4 +91,30 @@ public class QuestionService {
         return selectedQuestions;
     }
 
+    public QuizResultDTO submitQuiz(QuizSubmissionDTO submission){
+        List<QuestionResultDTO> results = new ArrayList<>();
+        int score = 0;
+
+        for (AnswerSubmissionDTO answer : submission.getAnswers()) {
+            Question question = questionRepository.findById(answer.getQuestionId())
+                    .orElseThrow(() -> new RuntimeException("Question not found"));
+
+            boolean isCorrect = question.getCorrectAnswerIndex() == answer.getSelectedAnswerIndex();
+
+            if(isCorrect){
+                score++;
+            }
+
+           QuestionResultDTO result = new QuestionResultDTO(
+                   question.getId(),
+                   answer.getSelectedAnswerIndex(),
+                   question.getCorrectAnswerIndex(),
+                   isCorrect
+           );
+           results.add(result);
+        }
+        int totalQuestions = submission.getAnswers().size();
+
+        return new QuizResultDTO(score, totalQuestions, results);
+    }
 }
