@@ -1,4 +1,4 @@
-POST http://localhost:8080/api/questions
+POST http://localhost:8080/api/quiz/start?categoryId=1&difficulty=EASY
 Content-Type: application/json
 
 {
