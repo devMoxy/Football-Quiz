@@ -4,6 +4,7 @@ import com.devMoxy.football_quiz.dto.QuestionCreateDTO;
 import com.devMoxy.football_quiz.dto.QuestionDTO;
 import com.devMoxy.football_quiz.entity.Difficulty;
 import com.devMoxy.football_quiz.service.QuestionService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class QuestionController {
     }
 
     @PostMapping("/api/questions")
-    public QuestionDTO postQuestions(@RequestBody QuestionCreateDTO dto){
+    public QuestionDTO postQuestions(@Valid @RequestBody QuestionCreateDTO dto){
         return questionService.createQuestion(dto);
     }
 

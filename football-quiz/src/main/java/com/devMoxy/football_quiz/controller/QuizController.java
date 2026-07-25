@@ -1,9 +1,12 @@
 package com.devMoxy.football_quiz.controller;
 
 import com.devMoxy.football_quiz.dto.QuestionDTO;
+import com.devMoxy.football_quiz.dto.QuizResultDTO;
+import com.devMoxy.football_quiz.dto.QuizSubmissionDTO;
 import com.devMoxy.football_quiz.entity.Difficulty;
 import com.devMoxy.football_quiz.service.QuestionService;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,5 +24,10 @@ public class QuizController {
     @PostMapping("/api/quiz/start")
     public List<QuestionDTO> quizStart(@RequestParam Long categoryId,@RequestParam Difficulty difficulty, @RequestParam(required = false, defaultValue = "20") int numberOfQuestions){
         return questionService.startQuiz(categoryId, difficulty, numberOfQuestions);
+    }
+
+    @PostMapping("/api/quiz/submit")
+    public QuizResultDTO submitQuiz(@RequestBody QuizSubmissionDTO submission){
+        return questionService.submitQuiz(submission);
     }
 }
