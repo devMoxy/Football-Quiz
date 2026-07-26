@@ -1,14 +1,13 @@
-POST http://localhost:8080/api/quiz/start?categoryId=1&difficulty=EASY
+POST http://localhost:8080/api/questions
 Content-Type: application/json
 
 {
-  "text": "Who won the 2018 World Cup?",
+  "text": "",
   "optionA": "France",
   "optionB": "Croatia",
   "optionC": "Brazil",
   "optionD": "Germany",
-  "correctAnswerIndex": 0,
-  "difficulty": "MEDIUM",
-  "categoryId": 1
+  "correctAnswerIndex": 1,
+  "difficulty": "EASY",
+  "categoryId": 2
 }
-
