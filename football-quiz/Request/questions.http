@@ -1,13 +1,8 @@
-POST http://localhost:8080/api/questions
+POST http://localhost:8080/api/career-path/submit
 Content-Type: application/json
 
 {
-  "text": "",
-  "optionA": "France",
-  "optionB": "Croatia",
-  "optionC": "Brazil",
-  "optionD": "Germany",
-  "correctAnswerIndex": 1,
-  "difficulty": "EASY",
-  "categoryId": 2
+  "answers": [
+    { "questionId": 1, "selectedAnswerIndex": 0 }
+  ]
 }
