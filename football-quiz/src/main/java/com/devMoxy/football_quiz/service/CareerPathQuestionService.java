@@ -1,8 +1,6 @@
 package com.devMoxy.football_quiz.service;
 
-import com.devMoxy.football_quiz.dto.CareerPathQuestionCreateDTO;
-import com.devMoxy.football_quiz.dto.CareerPathQuestionDTO;
-import com.devMoxy.football_quiz.dto.ClubStintDTO;
+import com.devMoxy.football_quiz.dto.*;
 import com.devMoxy.football_quiz.entity.CareerPathQuestion;
 import com.devMoxy.football_quiz.entity.ClubStint;
 import com.devMoxy.football_quiz.entity.Difficulty;
@@ -10,6 +8,7 @@ import com.devMoxy.football_quiz.repository.CareerPathQuestionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -91,5 +90,36 @@ public class CareerPathQuestionService {
         question.setClubStints(clubStints);
         CareerPathQuestion saved = careerPathQuestionRepository.save(question);
         return convertToDto(saved);
+    }
+
+    public CareerPathQuizResultDTO submitCareerPathQuiz(CareerPathQuizSubmissionDTO submission){
+        List<CareerPathResultDTO> results = new ArrayList<>();
+        int score = 0;
+
+        for (CareerPathSubmissionDTO answer : submission.getAnswers()) {
+            CareerPathQuestion question = careerPathQuestionRepository.findById(answer.getQuestionId())
+                    .orElseThrow(() -> new RuntimeException("Question not found"));
+
+            boolean isCorrect = question.getCorrectAnswerIndex() == answer.getSelectedAnswerIndex();
+            if (isCorrect) score++;
+
+            results.add(new CareerPathResultDTO(
+                    question.getId(),
+                    answer.getSelectedAnswerIndex(),
+                    question.getCorrectAnswerIndex(),
+                    question.getCorrectPlayerName(),
+                    isCorrect
+            ));
+        }
+
+        int totalQuestions = submission.getAnswers().size();
+        return new CareerPathQuizResultDTO(score, totalQuestions, results);
+    }
+
+    public List<CareerPathQuestionDTO> startCareerPathQuiz(Difficulty difficulty, int numberOfQuestions){
+        List<CareerPathQuestionDTO> dtoList = getCareerPathQuestionsByDifficulty(difficulty);
+        Collections.shuffle(dtoList);
+        int limit = Math.min(numberOfQuestions, dtoList.size());
+        return dtoList.subList(0, limit);
     }
 }

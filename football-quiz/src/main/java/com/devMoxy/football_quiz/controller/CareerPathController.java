@@ -1,7 +1,6 @@
 package com.devMoxy.football_quiz.controller;
 
-import com.devMoxy.football_quiz.dto.CareerPathQuestionCreateDTO;
-import com.devMoxy.football_quiz.dto.CareerPathQuestionDTO;
+import com.devMoxy.football_quiz.dto.*;
 import com.devMoxy.football_quiz.entity.Difficulty;
 import com.devMoxy.football_quiz.service.CareerPathQuestionService;
 import jakarta.validation.Valid;
@@ -25,5 +24,17 @@ public class CareerPathController {
     @PostMapping("/api/career-path")
     public CareerPathQuestionDTO postCareerPathQuestions(@Valid @RequestBody CareerPathQuestionCreateDTO dto){
         return careerPathQuestionService.createCareerPathQuestion(dto);
+    }
+
+    @PostMapping("/api/career-path/start")
+    public List<CareerPathQuestionDTO> startCareerPath(
+            @RequestParam Difficulty difficulty,
+            @RequestParam(required = false, defaultValue = "20") int numberOfQuestions){
+        return careerPathQuestionService.startCareerPathQuiz(difficulty, numberOfQuestions);
+    }
+
+    @PostMapping("/api/career-path/submit")
+    public CareerPathQuizResultDTO submitCareerPath(@RequestBody CareerPathQuizSubmissionDTO submission){
+        return careerPathQuestionService.submitCareerPathQuiz(submission);
     }
 }
