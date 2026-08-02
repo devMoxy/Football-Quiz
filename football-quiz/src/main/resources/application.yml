@@ -1,3 +1,6 @@
 spring:
   application:
     name: football-quiz
+
+server:
+  port: ${PORT:8080}
