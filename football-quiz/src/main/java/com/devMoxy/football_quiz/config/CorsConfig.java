@@ -18,6 +18,7 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         List<String> allowedOrigins = new ArrayList<>();
         allowedOrigins.add("http://localhost:5173");
+        allowedOrigins.add("http://localhost:5174");
         if (frontendUrl != null && !frontendUrl.isBlank()) {
             allowedOrigins.add(frontendUrl);
         }
