@@ -8,4 +8,5 @@ import java.util.List;
 public interface PlayerAchievementRepository extends JpaRepository<PlayerAchievement, Long> {
     List<PlayerAchievement> findByAchievementId(Long achievementId);
     List<PlayerAchievement> findByPlayerId(Long playerId);
+    boolean existsByPlayer_IdAndAchievement_Id(Long playerId, Long achievementId);
 }

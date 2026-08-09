@@ -16,15 +16,14 @@ public class CorsConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        List<String> allowedOrigins = new ArrayList<>();
-        allowedOrigins.add("http://localhost:5173");
-        allowedOrigins.add("http://localhost:5174");
+        List<String> allowedOriginPatterns = new ArrayList<>();
+        allowedOriginPatterns.add("http://localhost:[*]");
         if (frontendUrl != null && !frontendUrl.isBlank()) {
-            allowedOrigins.add(frontendUrl);
+            allowedOriginPatterns.add(frontendUrl);
         }
 
         registry.addMapping("/api/**")
-                .allowedOrigins(allowedOrigins.toArray(new String[0]))
+                .allowedOriginPatterns(allowedOriginPatterns.toArray(new String[0]))
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("Content-Type", "Authorization")
                 .allowCredentials(true);

@@ -28,6 +28,28 @@ public class DataSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        // Each block below is gated on its own table being empty, so a
+        // restart against a database that's already been seeded is a
+        // no-op. The gate wraps the whole interdependent unit (not each
+        // individual repository) because the achievement-match block's
+        // linking calls reuse local variables assigned earlier in that
+        // same block — splitting the guard finer would either fail to
+        // compile (variable might not have been initialized) or silently
+        // skip linking against freshly-fetched entities.
+        if (questionRepository.count() == 0) {
+            seedTrivia();
+        }
+
+        if (careerPathQuestionRepository.count() == 0) {
+            seedCareerPath();
+        }
+
+        if (playerRepository.count() == 0) {
+            seedAchievementMatch();
+        }
+    }
+
+    private void seedTrivia() {
         Category generalKnowledge = new Category();
         generalKnowledge.setName("General Knowledge");
         generalKnowledge = categoryRepository.save(generalKnowledge);
@@ -68,7 +90,9 @@ public class DataSeeder implements CommandLineRunner {
         q3.setDifficulty(Difficulty.MEDIUM);
         q3.setCategory(worldCup);
         questionRepository.save(q3);
+    }
 
+    private void seedCareerPath() {
         CareerPathQuestion cristiano = new CareerPathQuestion();
         cristiano.setCorrectPlayerName("Cristiano Ronaldo");
         cristiano.setOptionA("Cristiano Ronaldo");
@@ -98,9 +122,9 @@ public class DataSeeder implements CommandLineRunner {
 
         cristiano.setClubStints(List.of(stint1, stint2, stint3));
         careerPathQuestionRepository.save(cristiano);
+    }
 
-        // --- Achievement Matching seed data ---
-
+    private void seedAchievementMatch() {
         Player messi = new Player();
         messi.setName("Lionel Messi");
         messi.setImageUrl("https://upload.wikimedia.org/wikipedia/commons/b/b4/Lionel_Messi_20180626.jpg");
