@@ -8,6 +8,7 @@ import com.devMoxy.football_quiz.dto.PlayerDTO;
 import com.devMoxy.football_quiz.entity.Achievement;
 import com.devMoxy.football_quiz.entity.Player;
 import com.devMoxy.football_quiz.entity.PlayerAchievement;
+import com.devMoxy.football_quiz.exception.DuplicatePlayerAchievementException;
 import com.devMoxy.football_quiz.repository.AchievementRepository;
 import com.devMoxy.football_quiz.repository.PlayerAchievementRepository;
 import com.devMoxy.football_quiz.repository.PlayerRepository;
@@ -69,7 +70,7 @@ public class AchievementService {
                 .orElseThrow(() -> new RuntimeException("Achievement not found"));
 
         if (playerAchievementRepository.existsByPlayer_IdAndAchievement_Id(dto.getPlayerId(), dto.getAchievementId())) {
-            throw new RuntimeException("This player is already linked to this achievement");
+            throw new DuplicatePlayerAchievementException("This player is already linked to this achievement");
         }
 
         PlayerAchievement playerAchievement = new PlayerAchievement();
