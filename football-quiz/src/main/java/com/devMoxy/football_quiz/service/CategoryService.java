@@ -1,5 +1,6 @@
 package com.devMoxy.football_quiz.service;
 
+import com.devMoxy.football_quiz.dto.CategoryCreateDTO;
 import com.devMoxy.football_quiz.dto.CategoryDTO;
 import com.devMoxy.football_quiz.entity.Category;
 import com.devMoxy.football_quiz.repository.CategoryRepository;
@@ -32,5 +33,12 @@ public class CategoryService {
         dto.setId(category.getId());
         dto.setName(category.getName());
         return dto;
+    }
+
+    public CategoryDTO createCategory(CategoryCreateDTO dto){
+        Category category = new Category();
+        category.setName(dto.getName());
+        Category saved = categoryRepository.save(category);
+        return convertToDTO(saved);
     }
 }
