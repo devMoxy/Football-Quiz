@@ -106,6 +106,7 @@ public class AchievementMatchService {
             PlayerDTO dto = convertPlayerToDto(player);
             playerDTOList.add(dto);
         }
+        Collections.shuffle(playerDTOList);
 
         Map<Long, PlayerDTO> backupPoolDtos = new HashMap<>();
         for (Map.Entry<Long, Player> entry : backupPools.entrySet()) {
