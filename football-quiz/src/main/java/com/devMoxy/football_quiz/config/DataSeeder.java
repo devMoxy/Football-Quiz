@@ -3,10 +3,10 @@ package com.devMoxy.football_quiz.config;
 import com.devMoxy.football_quiz.entity.*;
 import com.devMoxy.football_quiz.repository.*;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 import java.util.List;
 
-@Component
+// Not a @Component: intentionally disabled so it never registers as a bean/CommandLineRunner
+// and never runs on startup, regardless of table state. Kept for reference.
 public class DataSeeder implements CommandLineRunner {
     private final CategoryRepository categoryRepository;
     private final QuestionRepository questionRepository;
