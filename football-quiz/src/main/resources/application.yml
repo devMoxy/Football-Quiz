@@ -4,3 +4,6 @@ spring:
 
 server:
   port: ${PORT:8080}
+
+api:
+  write-key: ${API_WRITE_KEY:local-dev-key}

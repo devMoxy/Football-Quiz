@@ -6,3 +6,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
+api:
+  write-key: ${API_WRITE_KEY}
