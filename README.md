@@ -1,11 +1,12 @@
 # Moxy Football Quiz — Backend
 
+Live Link: https://football-quiz-frontend-ashen.vercel.app
+
 A REST API for a football quiz app with three game modes: trivia, career path guessing, and grid based achievement matching. Built in Java with Spring Boot.
 
 This is the backend half of a two repo project. The frontend (React, TypeScript) lives in a separate repo here: https://github.com/devMoxy/Football-Quiz-Frontend. On its own this repo is just an API, there's no UI in here.
 
 Live API: https://football-quiz-lusl.onrender.com
-Live frontend that talks to it: https://football-quiz-frontend-ashen.vercel.app
 
 ## Stack
 
